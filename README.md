@@ -1,4 +1,4 @@
-# Digital Studio Website | Kyle Wessels
+# Digital Studio Website
 
 > **Digital experiences designed around your business.**
 
