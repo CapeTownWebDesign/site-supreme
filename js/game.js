@@ -224,9 +224,21 @@
   overlay.addEventListener("click", jump);
 
   document.addEventListener("keydown", function (e) {
-    if (e.code !== "Space") return;
-    // Only hijack spacebar when the game section is in view, so it
-    // doesn't block normal page scrolling elsewhere on the site.
+    var isSpace = e.code === "Space";
+    var isEnter = e.code === "Enter";
+    if (!isSpace && !isEnter) return;
+
+    // Keyboard start / restart: the overlay is a focusable button.
+    if (document.activeElement === overlay) {
+      e.preventDefault();
+      jump();
+      return;
+    }
+
+    // Mid-run, Space jumps — but only while the canvas is on screen and
+    // a run is actually in progress, so normal page scrolling is never
+    // hijacked just because the game happens to be visible.
+    if (!isSpace || state !== "running") return;
     var rect = canvas.getBoundingClientRect();
     var inView = rect.top < window.innerHeight && rect.bottom > 0;
     if (!inView) return;

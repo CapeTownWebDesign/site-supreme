@@ -936,3 +936,54 @@
 @media (min-width: 640px) {
   .u-hide-mobile { display: block; }
 }
+
+
+/* ---------- Consent banner ---------- */
+
+.consent-banner {
+  position: fixed;
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 40rem;
+  margin-inline: auto;
+  padding: var(--space-5);
+  background-color: var(--color-ink);
+  color: var(--color-text-on-ink);
+  border: 1px solid var(--color-ink-soft);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  font-size: var(--text-sm);
+}
+
+.consent-banner__text a {
+  text-decoration: underline;
+  color: var(--color-blueprint-light);
+}
+
+.consent-banner__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.consent-banner__btn {
+  flex: 1;
+}
+
+@media (min-width: 640px) {
+  .consent-banner {
+    flex-direction: row;
+    align-items: center;
+  }
+  .consent-banner__btn {
+    flex: none;
+  }
+}
+
+.site-footer__link {
+  text-decoration: underline;
+}

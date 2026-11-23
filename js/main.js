@@ -12,13 +12,26 @@ document.addEventListener("DOMContentLoaded", function () {
   var iconClose = document.getElementById("icon-close");
 
   if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener("click", function () {
-      var isOpen = mobileMenu.classList.contains("is-open");
+    function setMenu(open) {
+      mobileMenu.classList.toggle("is-open", open);
+      iconOpen.classList.toggle("u-hidden", open);
+      iconClose.classList.toggle("u-hidden", !open);
+      menuBtn.setAttribute("aria-expanded", String(open));
+    }
 
-      mobileMenu.classList.toggle("is-open");
-      iconOpen.classList.toggle("u-hidden");
-      iconClose.classList.toggle("u-hidden");
-      menuBtn.setAttribute("aria-expanded", String(!isOpen));
+    menuBtn.addEventListener("click", function () {
+      setMenu(!mobileMenu.classList.contains("is-open"));
+    });
+
+    // Close after choosing a destination, and on Escape.
+    mobileMenu.addEventListener("click", function (e) {
+      if (e.target.closest("a")) setMenu(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) {
+        setMenu(false);
+        menuBtn.focus();
+      }
     });
   }
 
@@ -81,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "service-portal": "A client portal usually fits best here — a secure place for patients or clients to see documents and details.",
     "service-store": "An online store is usually the right starting point, so you can sell and take payment without a third-party marketplace fee.",
     "service-website": "A clear business website usually does the job — explain what you do, build trust, make it easy to get in touch.",
+    "contact": "No problem — tell us what you do and what you need the site to handle, and we'll suggest where to start.",
   };
 
   pickerChips.forEach(function (chip) {
@@ -96,9 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (target) {
-        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
-        target.classList.add("service-card--highlight");
-        setTimeout(function () { target.classList.remove("service-card--highlight"); }, 1600);
+        var isCard = target.classList.contains("service-card");
+        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: isCard ? "center" : "start" });
+        if (isCard) {
+          target.classList.add("service-card--highlight");
+          setTimeout(function () { target.classList.remove("service-card--highlight"); }, 1600);
+        }
       }
     });
   });
