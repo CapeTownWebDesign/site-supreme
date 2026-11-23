@@ -1,8 +1,9 @@
 /* ==========================================================================
    MAIN STYLESHEET
    Import order matters: tokens define variables, base sets element
-   defaults, components layer reusable classes on top. Link only this
-   file from HTML — never link the three files individually.
+   defaults, components layer reusable classes on top. NOTE: index.html now links the
+   three files directly (avoids chained @import requests); this file is
+   kept for reference / future bundling.
    ========================================================================== */
 
 @import url("tokens.css");

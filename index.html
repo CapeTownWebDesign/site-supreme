@@ -11,6 +11,9 @@
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://www.websitebydesign.co.za/" />
 <link rel="icon" type="image/x-icon" href="assets/images/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 
 
 
@@ -20,28 +23,28 @@
 <meta property="og:description"
       content="Websites, booking systems, and client portals for growing South African businesses. Fast turnaround, one point of contact, priced for SMBs." />
 <meta property="og:url" content="https://www.websitebydesign.co.za/" />
-<meta property="og:image" content="https://www.websitebydesign.co.za/og-image.png" />
+<!-- TODO: replace with a proper 1200x630 og-image once the custom domain is live -->
+<meta property="og:image" content="https://capetownwebdesign.github.io/site-supreme/assets/images/android-chrome-512x512.png" />
 
-<!-- Google Search Console -->
-<meta name="google-site-verification" content="YOUR_REAL_CODE_HERE" />
-
-<!-- Google Analytics — logic lives in js/analytics.js -->
-<script src="js/analytics.js"></script>
+<!-- Analytics + consent banner — loads GA only after consent (js/analytics.js) -->
+<script src="js/analytics.js" defer></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
 </head>
 
-<body>
+<body id="top">
 
   <!-- ============ HEADER ============ -->
   <header class="site-header">
     <div class="container site-header__inner">
 
-      <a href="/" class="brand" aria-label="Website by Design home">
+      <a href="#top" class="brand" aria-label="Website by Design home">
         Website<span class="brand__dot">·</span>by Design
       </a>
 
@@ -165,11 +168,12 @@
         <h2 class="section-heading__title section-heading__title--tight">What kind of business are you running?</h2>
 
         <div class="picker-row" role="group" aria-label="Select your business type for a tailored recommendation">
-          <button type="button" class="picker-chip" data-service="service-booking">Restaurant / Café</button>
-          <button type="button" class="picker-chip" data-service="service-portal">Clinic / Practice</button>
-          <button type="button" class="picker-chip" data-service="service-booking">Trades &amp; Contractors</button>
-          <button type="button" class="picker-chip" data-service="service-store">Retail / Online Store</button>
-          <button type="button" class="picker-chip" data-service="service-website">Professional Services</button>
+          <button type="button" class="picker-chip" aria-pressed="false" data-service="service-booking">Restaurant / Café</button>
+          <button type="button" class="picker-chip" aria-pressed="false" data-service="service-portal">Clinic / Practice</button>
+          <button type="button" class="picker-chip" aria-pressed="false" data-service="service-booking">Trades &amp; Contractors</button>
+          <button type="button" class="picker-chip" aria-pressed="false" data-service="service-store">Retail / Online Store</button>
+          <button type="button" class="picker-chip" aria-pressed="false" data-service="service-website">Professional Services</button>
+          <button type="button" class="picker-chip" aria-pressed="false" data-service="contact">Something else</button>
         </div>
 
         <p id="picker-result" class="picker-result" aria-live="polite"></p>
@@ -214,7 +218,7 @@
           <article class="service-card reveal">
             <span class="icon-badge icon-badge--coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" stroke-linejoin="round"/></svg></span>
             <h3 class="service-card__title">Care Plans</h3>
-            <p class="service-card__body">Hosting, security updates, small edits, and uptime monitoring — so the site keeps working after launch.</p>
+            <p class="service-card__body">Security updates, small edits, and uptime monitoring — so the site keeps working after launch. We can also help you choose and set up hosting.</p>
           </article>
         </div>
       </div>
@@ -322,7 +326,7 @@
           <div class="game-canvas-wrap">
             <canvas id="game-canvas" role="img" aria-label="Deploy Dash mini game: press space, tap, or click to jump over obstacles"></canvas>
 
-            <div id="game-overlay" class="game-overlay">
+            <div id="game-overlay" class="game-overlay" role="button" tabindex="0" aria-label="Start Deploy Dash">
               <p id="game-overlay-title" class="game-overlay__title">Deploy Dash</p>
               <p id="game-overlay-hint" class="game-overlay__hint">Tap, click, or press Space to start</p>
             </div>
@@ -353,7 +357,7 @@
           </details>
           <details class="faq-item reveal">
             <summary class="faq-item__summary">Do I own the website once it's built?</summary>
-            <p class="faq-item__answer">Yes. The site, the code, and your content are yours. Our care plans cover hosting and maintenance, but you're never locked in.</p>
+            <p class="faq-item__answer">Yes. The site, the code, and your content are yours. Our care plans cover maintenance and support, but you're never locked in.</p>
           </details>
           <details class="faq-item reveal">
             <summary class="faq-item__summary">What if I need changes after launch?</summary>
@@ -397,11 +401,11 @@ You own it. You control it. We build it.</p>
         <p class="site-footer__brand">Website by Design</p>
         <p class="site-footer__tagline">Beautiful. Functional. Built for Business.</p>
       </div>
-      <p class="site-footer__copy">&copy; 2026 Website by Design. Part of the D10 Solutions Group.</p>
+      <p class="site-footer__copy">&copy; 2026 Website by Design. Part of the D10 Solutions Group. · <a href="privacy.html" class="site-footer__link">Privacy</a></p>
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
-  <script src="js/game.js"></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/game.js" defer></script>
 </body>
 </html>
