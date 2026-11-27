@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   ALLENA'S HAIR SALON — design concept stylesheet (Tailwind v4 source)
+
+   Build:  npm run build   ->  css/styles.css   (commit the compiled file)
+   Watch:  npm run dev
+
+   Layout concept: an asymmetric hero built around an arched salon mirror
+   whose hair recolours with the shade you pick. Below it, quiet left-aligned
+   editorial sections and one plum band for colour. Bold in one place: the
+   mirror.
+
+   File map
+     1. Colour tokens ........ plain CSS variables, light + dark
+     2. Theme ................ maps tokens / fonts / breakpoints to utilities
+     3. Base ................. element defaults
+     4. Components ........... only where markup repeats or CSS is bespoke
+   Everything else is written as utilities directly in index.html.
+   ========================================================================== */
+
+
+/* ---------- 1. Colour tokens ----------
+   Theming stays variable-driven, exactly as before: the dark palette applies
+   automatically from the OS setting, and can be forced either way with
+   <html data-theme="light|dark">. */
+
+:root {
+  --bg: #F7F2F4;
+  --surface: #FFFFFF;
+  --ink: #2A1828;
+  --ink-soft: #5B4659;
+  --rose: #9C3F5F;
+  --on-rose: #FFFFFF;
+  --line: #E0D2DA;
+  --field: #85707F;
+  --band: #2A1828;
+  --band-ink: #F4ECF1;
+  --band-soft: #CDB8C9;
+  --champagne: #D2B07F;
+  --swatch-edge: rgba(42, 24, 40, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1A0F1A;
+    --surface: #251627;
+    --ink: #F4ECF1;
+    --ink-soft: #BFAABB;
+    --rose: #E88CA8;
+    --on-rose: #1A0F1A;
+    --line: #3E2A3F;
+    --field: #9A8497;
+    --band: #2B1A2D;
+    --swatch-edge: rgba(255, 255, 255, 0.3);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1A0F1A;
+  --surface: #251627;
+  --ink: #F4ECF1;
+  --ink-soft: #BFAABB;
+  --rose: #E88CA8;
+  --on-rose: #1A0F1A;
+  --line: #3E2A3F;
+  --field: #9A8497;
+  --band: #2B1A2D;
+  --swatch-edge: rgba(255, 255, 255, 0.3);
+  color-scheme: dark;
+}
+
+
+/* ---------- 2. Theme ----------
+   `inline` makes utilities such as bg-bg / text-ink-soft / border-line
+   reference the variables above, so they flip with the theme. */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rose: var(--rose);
+  --color-on-rose: var(--on-rose);
+  --color-line: var(--line);
+  --color-field: var(--field);
+  --color-band: var(--band);
+  --color-band-ink: var(--band-ink);
+  --color-band-soft: var(--band-soft);
+  --color-champagne: var(--champagne);
+}
+
+@theme {
+  --font-serif: "Bodoni Moda", "Bodoni 72", Didot, "Playfair Display", Georgia, serif;
+  --font-sans: "Jost", Futura, "Century Gothic", "Segoe UI", system-ui, sans-serif;
+
+  --text-h1: clamp(2.7rem, 6.4vw, 5.1rem);
+  --text-h2: clamp(2rem, 4.2vw, 3.1rem);
+  --text-h3: clamp(1.5rem, 2.4vw, 1.85rem);
+
+  /* The design switches layout at 720px (nav) and 900px (two-column
+     sections), not at Tailwind's defaults. `sm` (640px) is unchanged. */
+  --breakpoint-nav: 45rem;
+  --breakpoint-split: 56.25rem;
+}
+
+
+/* ---------- 3. Base ---------- */
+
+@layer base {
+  :root { color-scheme: light; }
+
+  html {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3 {
+    @apply font-serif font-normal text-balance;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+  h1 { @apply text-h1; }
+  h2 { @apply text-h2; }
+  h3 { @apply text-h3; }
+
+  p { @apply text-pretty; }
+
+  :focus-visible {
+    outline: 2px solid var(--rose);
+    outline-offset: 3px;
+  }
+}
+
+
+/* ---------- 4. Components ---------- */
+
+@layer components {
+
+  /* Page width + safe-area aware gutters */
+  .wrap {
+    @apply w-full max-w-[1240px] mx-auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .section { padding-block: clamp(4rem, 9vw, 7.5rem); }
+
+  /* Buttons and text links */
+  .btn {
+    @apply inline-flex items-center justify-center min-h-11 px-[1.6rem] py-[0.7rem]
+           bg-rose text-on-rose border border-rose rounded-none
+           text-[0.95rem] font-medium leading-none tracking-[0.04em]
+           no-underline cursor-pointer
+           hover:bg-transparent hover:text-rose;
+  }
+
+  .link {
+    @apply inline-flex items-center min-h-11 text-rose underline decoration-1
+           underline-offset-[0.3em] hover:decoration-2;
+  }
+
+  /* Brand lock-up (header + footer) */
+  .brand { @apply inline-flex items-center gap-3 no-underline text-ink; }
+  .brand-mark { @apply w-6 h-[30px] text-rose flex-none; }
+  .brand-text { @apply flex flex-col leading-none; }
+  .brand-name { @apply font-serif text-[1.65rem] tracking-[-0.01em]; }
+  .brand-sub { @apply mt-[0.35rem] text-[0.68rem] tracking-[0.26em] uppercase text-ink-soft; }
+
+  /* Header + footer navigation links */
+  .nav-link {
+    @apply inline-flex items-center min-h-11 px-[0.9rem] text-[0.97rem] tracking-[0.02em]
+           no-underline hover:underline hover:underline-offset-[0.35em] hover:decoration-1;
+  }
+
+  /* Hero mirror: arched glass, recoloured by js/mirror.js via --mirror */
+  .glass {
+    @apply relative aspect-[4/5] overflow-hidden rounded-t-[999px];
+    background: var(--mirror, #34203A);
+    transition: background-color 0.7s ease;
+    box-shadow: 0 0 0 10px var(--bg), 0 0 0 11px var(--rose);
+  }
+  .glass::after {
+    content: "";
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(112deg, transparent 38%, rgba(255, 255, 255, 0.1) 46%, transparent 54%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .glass { transition: none; }
+  }
+
+  /* Shade swatches: a real radio input sits invisibly over a painted dot */
+  .swatch { @apply relative block w-11 h-11; }
+  .swatch-input { @apply absolute inset-0 w-full h-full m-0 opacity-0 cursor-pointer; }
+  .swatch-dot {
+    @apply grid place-items-center w-full h-full rounded-full pointer-events-none
+           text-[0.85rem] font-medium tabular-nums;
+    background: var(--sw);
+    color: var(--sw-fg);
+    box-shadow: inset 0 0 0 1px var(--swatch-edge);
+  }
+  .swatch-input:checked + .swatch-dot { outline: 2px solid var(--rose); outline-offset: 3px; }
+  .swatch-input:focus-visible + .swatch-dot { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  /* Colour-level strip in the plum band */
+  .tress {
+    @apply w-full h-[clamp(150px,24vw,240px)] rounded-t-[999px];
+    background: var(--sw);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  }
+
+  /* Service rows */
+  .service {
+    @apply grid gap-x-8 gap-y-[0.6rem] py-7 border-t border-line
+           sm:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] sm:items-baseline;
+  }
+
+  /* Appointment form controls */
+  .control {
+    @apply w-full min-h-11 py-[0.65rem] px-0 text-ink bg-transparent
+           border-0 border-b border-field rounded-none
+           focus:border-b-rose aria-[invalid=true]:border-b-2 aria-[invalid=true]:border-b-rose;
+  }
+}
